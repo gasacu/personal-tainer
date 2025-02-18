@@ -1,0 +1,6 @@
+@PTApp.Server_HostAddress = http://localhost:5092
+
+GET {{PTApp.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
