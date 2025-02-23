@@ -19,7 +19,7 @@ namespace PTApp.Server
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            builder.Services.AddOpenApi();       
 
             builder.Services.AddDbContext<AppDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString"))
@@ -40,10 +40,16 @@ namespace PTApp.Server
             app.UseDefaultFiles();
             app.MapStaticAssets();
 
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/openapi/v1.json", "OpenAPI V1");
+                });
             }
 
             app.UseHttpsRedirection();
@@ -55,7 +61,9 @@ namespace PTApp.Server
 
             app.MapControllers();
 
-            app.MapFallbackToFile("/index.html");
+            //app.MapFallbackToFile("/index.html");
+
+            app.MapGet("/", () => "Hello world!");
 
             app.Run();
         }

@@ -1,9 +1,11 @@
-﻿namespace PTApp.Server.Models
+﻿using PTApp.Server.Repositories.Interfaces;
+
+namespace PTApp.Server.Models
 {
-    public class Workout
+    public class Workout : IIdentifiable
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public string WorkoutName { get; set; }
         public string WorkoutType { get; set; }
         public int DurationMinutes { get; set; }

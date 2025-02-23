@@ -1,8 +1,10 @@
-﻿namespace PTApp.Server.Models
+﻿using PTApp.Server.Repositories.Interfaces;
+
+namespace PTApp.Server.Models
 {
-    public class User
+    public class User : IIdentifiable
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
@@ -13,7 +15,6 @@
 
         public ICollection<Workout> Workouts { get; set; }
         public ICollection<ProgressTracking> ProgressTrackings { get; set; }
-        public ICollection<Subscription> Subscriptions { get; set; }
-        public ICollection<Payment> Payments { get; set; }
+
     }
 }

@@ -12,7 +12,7 @@ using PTApp.Server.Data;
 namespace PTApp.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250216173234_InitialCreate")]
+    [Migration("20250222111404_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,11 +27,9 @@ namespace PTApp.Server.Migrations
 
             modelBuilder.Entity("PTApp.Server.Models.Exercise", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -53,57 +51,16 @@ namespace PTApp.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WorkoutExerciseExerciseId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("WorkoutExerciseWorkoutId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("WorkoutExerciseWorkoutId", "WorkoutExerciseExerciseId");
 
                     b.ToTable("Exercises");
                 });
 
-            modelBuilder.Entity("PTApp.Server.Models.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("AmountPaid")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SubscriptionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Payments");
-                });
-
             modelBuilder.Entity("PTApp.Server.Models.ProgressTracking", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("BodyFatPercentage")
                         .HasColumnType("decimal(18,2)");
@@ -117,8 +74,8 @@ namespace PTApp.Server.Migrations
                     b.Property<decimal>("MuscleMassKg")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("WeightKg")
                         .HasColumnType("decimal(18,2)");
@@ -130,44 +87,11 @@ namespace PTApp.Server.Migrations
                     b.ToTable("ProgressTrackings");
                 });
 
-            modelBuilder.Entity("PTApp.Server.Models.Subscription", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte>("IsActive")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("PlanType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Subscriptions");
-                });
-
             modelBuilder.Entity("PTApp.Server.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -201,11 +125,9 @@ namespace PTApp.Server.Migrations
 
             modelBuilder.Entity("PTApp.Server.Models.Workout", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CaloriesBurned")
                         .HasColumnType("int");
@@ -220,14 +142,8 @@ namespace PTApp.Server.Migrations
                     b.Property<int>("DurationMinutes")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("WorkoutExerciseExerciseId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("WorkoutExerciseWorkoutId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("WorkoutName")
                         .IsRequired()
@@ -241,24 +157,22 @@ namespace PTApp.Server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("WorkoutExerciseWorkoutId", "WorkoutExerciseExerciseId");
-
                     b.ToTable("Workouts");
                 });
 
             modelBuilder.Entity("PTApp.Server.Models.WorkoutExercise", b =>
                 {
-                    b.Property<int>("WorkoutId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("WorkoutId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ExerciseId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("DurationSeconds")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Reps")
                         .HasColumnType("int");
@@ -273,25 +187,6 @@ namespace PTApp.Server.Migrations
                     b.ToTable("WorkoutExercises");
                 });
 
-            modelBuilder.Entity("PTApp.Server.Models.Exercise", b =>
-                {
-                    b.HasOne("PTApp.Server.Models.WorkoutExercise", null)
-                        .WithMany("Exercises")
-                        .HasForeignKey("WorkoutExerciseWorkoutId", "WorkoutExerciseExerciseId");
-                });
-
-            modelBuilder.Entity("PTApp.Server.Models.Payment", b =>
-                {
-                    b.HasOne("PTApp.Server.Models.User", "User")
-                        .WithMany("Payments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_Payments_Users");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("PTApp.Server.Models.ProgressTracking", b =>
                 {
                     b.HasOne("PTApp.Server.Models.User", "User")
@@ -304,18 +199,6 @@ namespace PTApp.Server.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PTApp.Server.Models.Subscription", b =>
-                {
-                    b.HasOne("PTApp.Server.Models.User", "User")
-                        .WithMany("Subscriptions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_Subscriptions_Users");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("PTApp.Server.Models.Workout", b =>
                 {
                     b.HasOne("PTApp.Server.Models.User", "User")
@@ -324,10 +207,6 @@ namespace PTApp.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Workouts_Users");
-
-                    b.HasOne("PTApp.Server.Models.WorkoutExercise", null)
-                        .WithMany("Workouts")
-                        .HasForeignKey("WorkoutExerciseWorkoutId", "WorkoutExerciseExerciseId");
 
                     b.Navigation("User");
                 });
@@ -360,11 +239,7 @@ namespace PTApp.Server.Migrations
 
             modelBuilder.Entity("PTApp.Server.Models.User", b =>
                 {
-                    b.Navigation("Payments");
-
                     b.Navigation("ProgressTrackings");
-
-                    b.Navigation("Subscriptions");
 
                     b.Navigation("Workouts");
                 });
@@ -372,13 +247,6 @@ namespace PTApp.Server.Migrations
             modelBuilder.Entity("PTApp.Server.Models.Workout", b =>
                 {
                     b.Navigation("WorkoutExercises");
-                });
-
-            modelBuilder.Entity("PTApp.Server.Models.WorkoutExercise", b =>
-                {
-                    b.Navigation("Exercises");
-
-                    b.Navigation("Workouts");
                 });
 #pragma warning restore 612, 618
         }

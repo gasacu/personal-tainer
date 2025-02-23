@@ -1,9 +1,11 @@
-﻿namespace PTApp.Server.Models
+﻿using PTApp.Server.Repositories.Interfaces;
+
+namespace PTApp.Server.Models
 {
-    public class ProgressTracking
+    public class ProgressTracking : IIdentifiable
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public DateTime DateLogged { get; set; }
         public decimal WeightKg { get; set; }
         public decimal BodyFatPercentage { get; set; }
